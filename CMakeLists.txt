@@ -27,6 +27,10 @@ set(IMGUI_SOURCES
         ${imgui_SOURCE_DIR}/imgui_widgets.cpp
         ${imgui_SOURCE_DIR}/imgui_tables.cpp
         ${imgui_SOURCE_DIR}/imgui_demo.cpp
+        Player.cpp
+        Player.h
+        GameEditor.cpp
+        GameEditor.h
 )
 
 add_executable(IDGAFWID
