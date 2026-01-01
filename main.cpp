@@ -13,6 +13,11 @@ int main() {
     float ballSpeed = 1.0f;
 
     rlImGuiSetup(true);
+    ImGuiIO& io = ImGui::GetIO();
+    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.FontGlobalScale = 2.0f;
+
     //Main Loop
     while (!WindowShouldClose()) {
         //Module 1 - (movement)
@@ -27,15 +32,23 @@ int main() {
             DrawText("Move the ball with the keys!", 10, 10, 20, DARKGRAY);
             DrawCircleV(ballPosition, 40, MAROON);
 
+            // ToolKit
             rlImGuiBegin();
-                // ToolKit
-                ImGui::Begin("Control de Experimento");
-                ImGui::SliderFloat("Posicion X", &ballPosition.x, 0, 1600);
-                ImGui::SliderFloat("Velocidad", &ballSpeed, 0, 4);
+                ImGui::DockSpaceOverViewport(0,ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
+                ImGui::Begin("Inspector");
+                ImGui::SliderFloat("Position X", &ballPosition.x, 0, 1600);
+                ImGui::SliderFloat("Position Y", &ballPosition.y, 0, 720);
+                ImGui::SliderFloat("Speed", &ballSpeed, 0, 4);
                 ImGui::Text("FPS: %i", GetFPS());
                 ImGui::End();
             rlImGuiEnd();
         EndDrawing();
+
+        //Render Toolkit Windows
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+        }
     }
 
     rlImGuiShutdown();
